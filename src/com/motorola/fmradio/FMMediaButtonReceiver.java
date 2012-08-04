@@ -14,6 +14,10 @@ public class FMMediaButtonReceiver extends BroadcastReceiver {
     private static final int DOUBLE_CLICK_TIMEOUT = 500;
     private static final int MSG_DOUBLE_CLICK_TIMEOUT = 1;
 
+    public static final String CMD_ORIGIN = "cmd_origin";
+
+    public static final int CMD_NOTIFICATION = 1;
+
     private static Handler sHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -59,6 +63,7 @@ public class FMMediaButtonReceiver extends BroadcastReceiver {
         }
 
         KeyEvent event = (KeyEvent) intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+        int commandOrigin = intent.getIntExtra(CMD_ORIGIN, 0);
         if (event == null) {
             return;
         }
@@ -75,28 +80,26 @@ public class FMMediaButtonReceiver extends BroadcastReceiver {
         }
 
         if (action == KeyEvent.ACTION_DOWN) {
-            switch (keycode) {
-                case KeyEvent.KEYCODE_HEADSETHOOK:
-                    if (sHandler.hasMessages(MSG_DOUBLE_CLICK_TIMEOUT)) {
-                        Log.v(TAG, "Detected double click of headset button, sending next command");
-                        sHandler.removeMessages(MSG_DOUBLE_CLICK_TIMEOUT);
+            if (commandOrigin == CMD_NOTIFICATION) {
+                switch (keycode) {
+                    case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
+                        startServiceForCommand(context, FMRadioPlayerService.COMMAND_PREV);
+                        break;
+                    case KeyEvent.KEYCODE_MEDIA_NEXT:
                         startServiceForCommand(context, FMRadioPlayerService.COMMAND_NEXT);
-                    }
-                    break;
-                case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
-                    startServiceForCommand(context, FMRadioPlayerService.COMMAND_PREV);
-                    break;
-                case KeyEvent.KEYCODE_MEDIA_NEXT:
-                    startServiceForCommand(context, FMRadioPlayerService.COMMAND_NEXT);
-                    break;
-                case KeyEvent.KEYCODE_MEDIA_STOP:
-                    startServiceForCommand(context, FMRadioPlayerService.COMMAND_STOP);
-                    break;
-                default: {
-                    Message msg = sHandler.obtainMessage(MSG_DOUBLE_CLICK_TIMEOUT, keycode, 0,
-                            context);
-                    sHandler.sendMessageDelayed(msg, DOUBLE_CLICK_TIMEOUT);
+                        break;
+                    case KeyEvent.KEYCODE_MEDIA_STOP:
+                        startServiceForCommand(context, FMRadioPlayerService.COMMAND_STOP);
+                        break;
                 }
+            } else if (keycode == KeyEvent.KEYCODE_HEADSETHOOK
+                    && sHandler.hasMessages(MSG_DOUBLE_CLICK_TIMEOUT)) {
+                Log.v(TAG, "Detected double click of headset button, sending next command");
+                sHandler.removeMessages(MSG_DOUBLE_CLICK_TIMEOUT);
+                startServiceForCommand(context, FMRadioPlayerService.COMMAND_NEXT);
+            } else {
+                Message msg = sHandler.obtainMessage(MSG_DOUBLE_CLICK_TIMEOUT, keycode, 0, context);
+                sHandler.sendMessageDelayed(msg, DOUBLE_CLICK_TIMEOUT);
             }
         }
 

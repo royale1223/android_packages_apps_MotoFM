@@ -972,6 +972,8 @@ public class FMRadioPlayerService extends Service {
                 FMMediaButtonReceiver.class.getName());
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
         mediaButtonIntent.setComponent(rec);
+        mediaButtonIntent.putExtra(FMMediaButtonReceiver.CMD_ORIGIN,
+                FMMediaButtonReceiver.CMD_NOTIFICATION);
         KeyEvent mediaKey = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
         mediaButtonIntent.putExtra(Intent.EXTRA_KEY_EVENT, mediaKey);
         PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1,
