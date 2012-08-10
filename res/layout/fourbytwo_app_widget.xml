@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/four_by_two"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/four_by_two_height"
+    android:background="@drawable/appwidget_bg_holo_light"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/four_by_two_white_controls"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/four_by_two_control_height"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="@dimen/four_by_two_control_padding_left_right"
+        android:paddingRight="@dimen/four_by_two_control_padding_left_right"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/four_by_two_white_control_prev"
+            style="@style/FourByTwoMediaButton"
+            android:src="@drawable/fm_holo_light_previous" />
+
+        <ImageButton
+            android:id="@+id/four_by_two_white_control_mute"
+            style="@style/FourByTwoMediaButton"
+            android:src="@drawable/fm_holo_light_stop" />
+
+        <ImageButton
+            android:id="@+id/four_by_two_white_control_next"
+            style="@style/FourByTwoMediaButton"
+            android:src="@drawable/fm_holo_light_next" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/four_by_two_white_controls_info_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/four_by_two_white_controls"
+        android:scaleType="fitXY" />
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/four_by_two_white_controls"
+        android:background="@color/holo_blue_dark" />
+
+    <LinearLayout
+        android:id="@+id/four_by_two_white_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/four_by_two_white_controls"
+        android:background="@drawable/holo_selector"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/four_by_two_white_station_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/transparent_black"
+            android:textSize="10dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/four_by_two_white_frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/transparent_black"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/four_by_two_white_rds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/transparent_black"
+            android:textSize="10dp" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -3,6 +3,7 @@ package com.motorola.fmradio;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -28,6 +29,7 @@ import android.widget.RemoteViews;
 import com.motorola.android.fmradio.IFMRadioService;
 import com.motorola.android.fmradio.IFMRadioServiceCallback;
 import com.motorola.fmradio.FMDataProvider.Channels;
+import com.motorola.fmradio.appwidgets.FourByTwoWhiteWidget;
 
 public class FMRadioPlayerService extends Service {
     private static final String TAG = "FMRadioPlayerService";
@@ -112,6 +114,7 @@ public class FMRadioPlayerService extends Service {
     private BroadcastReceiver mReceiver = null;
     private ContentObserver mObserver = null;
     private SharedPreferences mSharedPrefs;
+    private FourByTwoWhiteWidget mFourByTwoWhiteWidget = FourByTwoWhiteWidget.getInstance();
 
     protected ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -579,7 +582,7 @@ public class FMRadioPlayerService extends Service {
         mNotification.contentIntent = PendingIntent.getActivity(this, 0, launchIntent, 0);
     }
 
-    private CharSequence getRdsText() {
+    public CharSequence getRdsText() {
         StringBuilder rdsText = new StringBuilder();
         if (!TextUtils.isEmpty(mRdsStationName)) {
             rdsText.append(mRdsStationName);
@@ -606,7 +609,7 @@ public class FMRadioPlayerService extends Service {
         return rdsText.toString();
     }
 
-    private CharSequence getCurrentStationName() {
+    public CharSequence getCurrentStationName() {
         Cursor cursor = getCurrentPresetCursor();
         if (cursor != null && cursor.moveToFirst()) {
             return FMUtil.getPresetListString(this, cursor);
@@ -913,6 +916,13 @@ public class FMRadioPlayerService extends Service {
 
         cursor.close();
         return bestFrequency;
+    }
+
+    /**
+     * @return the mCurFreq
+     */
+    public int getmCurFreq() {
+        return mCurFreq;
     }
 
     private void updateStateIndicators() {

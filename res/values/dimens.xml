@@ -26,4 +26,9 @@
     <dimen name="status_bar_icon">64dp</dimen>
     <dimen name="status_bar_button_info_container_padding_left">11dp</dimen>
 
+    <!-- AppWidget 4x2 -->
+    <dimen name="four_by_two_height">180dp</dimen>
+    <dimen name="four_by_two_control_height">55dp</dimen>
+    <dimen name="four_by_two_control_padding_left_right">64dp</dimen>
+
 </resources>

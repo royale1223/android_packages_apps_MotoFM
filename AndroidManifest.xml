@@ -48,7 +48,6 @@
 
         <service
             android:name="FMRadioPlayerService"
-            android:exported="false"
             android:process=":remote" >
             <intent-filter>
                 <action android:name="com.motorola.fmradio.FMRADIO_SERVICE" />
@@ -61,6 +60,19 @@
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
+        </receiver>
+
+        <!-- 4x2 App Widget -->
+        <receiver
+            android:name="com.motorola.fmradio.appwidgets.FourByTwoWhiteWidget"
+            android:label="4x2 white" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget4x2_info" />
         </receiver>
     </application>
 
