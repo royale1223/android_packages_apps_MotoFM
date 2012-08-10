@@ -149,7 +149,7 @@
             style="@style/BottomActionBarItem"
             android:layout_weight="1"
             android:contentDescription="@string/image_cd"
-            android:src="@drawable/fm_autosearch_reduce_enable" />
+            android:src="@drawable/fm_holo_light_previous" />
 
         <ImageButton
             android:id="@+id/btn_reduce"
@@ -170,7 +170,7 @@
             style="@style/BottomActionBarItem"
             android:layout_weight="1"
             android:contentDescription="@string/image_cd"
-            android:src="@drawable/fm_autosearch_plus_enable" />
+            android:src="@drawable/fm_holo_light_next" />
     </LinearLayout>
 
 </LinearLayout>
