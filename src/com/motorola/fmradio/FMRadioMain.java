@@ -638,12 +638,12 @@ public class FMRadioMain extends ListActivity implements SeekBar.OnSeekBarChange
 
         MenuItem powerItem = menu.findItem(R.id.menu_power);
         powerItem.setTitle(mRadioPowered ? R.string.menu_power_off : R.string.menu_power_on);
-        powerItem.setIcon(mRadioPowered ? R.drawable.ic_menu_power_on : R.drawable.ic_menu_power);
+        powerItem.setIcon(mRadioPowered ? R.drawable.ic_action_poweroff : R.drawable.ic_action_poweron);
 
         MenuItem speakerItem = menu.findItem(R.id.menu_speaker);
         speakerItem.setEnabled(canUseHeadset);
         speakerItem.setTitle(mSpeakerEnabled ? R.string.menu_headset : R.string.menu_speaker);
-        speakerItem.setIcon(mSpeakerEnabled ? R.drawable.ic_menu_speaker_on : R.drawable.ic_menu_speaker);
+        speakerItem.setIcon(mSpeakerEnabled ? R.drawable.ic_action_headset : R.drawable.ic_action_speaker);
 
         menu.findItem(R.id.menu_edit).setVisible(canEditPreset && mRadioPowered);
         menu.findItem(R.id.menu_save).setVisible(!canEditPreset && mRadioPowered);
