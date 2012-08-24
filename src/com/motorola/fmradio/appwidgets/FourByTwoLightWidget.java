@@ -14,15 +14,15 @@ import android.widget.RemoteViews;
 import com.motorola.fmradio.FMRadioPlayerService;
 import com.motorola.fmradio.R;
 
-public class FourByTwoWhiteWidget extends AppWidgetProvider {
+public class FourByTwoLightWidget extends AppWidgetProvider {
 
     public static final String CMDAPPWIDGETUPDATE = "appwidgetupdate4x2white";
     private static final String TAG = "FourByTwoWhiteWidget";
-    private static FourByTwoWhiteWidget sInstance;
+    private static FourByTwoLightWidget sInstance;
 
-    public static synchronized FourByTwoWhiteWidget getInstance() {
+    public static synchronized FourByTwoLightWidget getInstance() {
         if (sInstance == null) {
-            sInstance = new FourByTwoWhiteWidget();
+            sInstance = new FourByTwoLightWidget();
         }
         return sInstance;
     }

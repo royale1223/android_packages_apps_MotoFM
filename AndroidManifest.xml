@@ -64,7 +64,7 @@
 
         <!-- 4x2 App Widget -->
         <receiver
-            android:name="com.motorola.fmradio.appwidgets.FourByTwoWhiteWidget"
+            android:name=".appwidgets.FourByTwoLightWidget"
             android:label="4x2 white" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

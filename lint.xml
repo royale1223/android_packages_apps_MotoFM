@@ -4,4 +4,7 @@
         <ignore path="src/com/motorola/fmradio/FMRadioMain.java" />
         <ignore path="src/com/motorola/fmradio/FMRadioPlayerService.java" />
     </issue>
+    <issue id="ParserError">
+        <ignore path="src/com/motorola/fmradio/appwidgets/FourByTwoWhiteWidget.java" />
+    </issue>
 </lint>

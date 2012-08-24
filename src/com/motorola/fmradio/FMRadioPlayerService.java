@@ -29,7 +29,7 @@ import android.widget.RemoteViews;
 import com.motorola.android.fmradio.IFMRadioService;
 import com.motorola.android.fmradio.IFMRadioServiceCallback;
 import com.motorola.fmradio.FMDataProvider.Channels;
-import com.motorola.fmradio.appwidgets.FourByTwoWhiteWidget;
+import com.motorola.fmradio.appwidgets.FourByTwoLightWidget;
 
 public class FMRadioPlayerService extends Service {
     private static final String TAG = "FMRadioPlayerService";
@@ -78,6 +78,11 @@ public class FMRadioPlayerService extends Service {
 
     private static final int IDLE_DELAY = 10 * 1000;
 
+    public static final String SERVICECMD = "sevice_cmd";
+    public static final String CMDNAME = "command";
+    public static final String RDS_CHANGED = "rds_changed";
+    public static final String PLAYSTATE_CHANGED = "playstate_changed";
+
     private IFMRadioService mIFMRadioService = null;
     private IFMRadioPlayerServiceCallbacks mCallbacks = null;
 
@@ -114,7 +119,7 @@ public class FMRadioPlayerService extends Service {
     private BroadcastReceiver mReceiver = null;
     private ContentObserver mObserver = null;
     private SharedPreferences mSharedPrefs;
-    private FourByTwoWhiteWidget mFourByTwoWhiteWidget = FourByTwoWhiteWidget.getInstance();
+    private FourByTwoLightWidget mFourByTwoLightWidget = FourByTwoLightWidget.getInstance();
 
     protected ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -769,6 +774,7 @@ public class FMRadioPlayerService extends Service {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
+                String cmd = intent.getStringExtra(CMDNAME);
                 Log.d(TAG, "Received broadcast: " + action);
 
                 if (action.equals(Intent.ACTION_HEADSET_PLUG)) {
@@ -796,6 +802,11 @@ public class FMRadioPlayerService extends Service {
                     }
                 } else if (mReady && action.equals(SettingsActivity.ACTION_RSSI_UPDATED)) {
                     setSeekSensitivity(intent.getIntExtra(SettingsActivity.EXTRA_RSSI, -1));
+                } else if (action.equals(SERVICECMD) && cmd != null) {
+                    if (FourByTwoLightWidget.CMDAPPWIDGETUPDATE.equals(cmd)) {
+                        int[] appWidgetIds = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
+                        mFourByTwoLightWidget.performUpdate(FMRadioPlayerService.this, appWidgetIds);
+                    }
                 }
             }
         };
@@ -808,6 +819,7 @@ public class FMRadioPlayerService extends Service {
         filter.addAction(ACTION_AUDIOPATH_BUSY);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(SettingsActivity.ACTION_RSSI_UPDATED);
+        filter.addAction(SERVICECMD);
         registerReceiver(mReceiver, filter);
     }
 
@@ -953,6 +965,9 @@ public class FMRadioPlayerService extends Service {
         /* TODO: add hint if muted? */
         updateStatus();
 
+        // Update wigets
+        updateWidgets();
+
         updateFmStateBroadcast(true);
 
         /* fake a music state change to make the FM state appear on the lockscreen */
@@ -970,6 +985,10 @@ public class FMRadioPlayerService extends Service {
         } else {
             updateMusicMetadata(null, null, false);
         }
+    }
+
+    private void updateWidgets() {
+        mFourByTwoLightWidget.notifyChange(this, PLAYSTATE_CHANGED);
     }
 
     private void updateStatus() {
